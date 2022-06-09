@@ -3,6 +3,7 @@ import Button from "./Button";
 import InputText from "./DataInput/InputText";
 
 const AddNoteForm = ({ handlerSubmit }) => {
+  const [charTitleLeft, setCharTitleLeft] = useState(50);
   const d = new Date();
 
   const [note, setNote] = useState({
@@ -17,6 +18,8 @@ const AddNoteForm = ({ handlerSubmit }) => {
     const value = e.target.value;
     const name = e.target.name;
     setNote({ ...note, [name]: value });
+
+    name === "title" && setCharTitleLeft(50 - value.length);
   }
 
   function handleSubmit(e) {
@@ -30,6 +33,7 @@ const AddNoteForm = ({ handlerSubmit }) => {
         createdAt: d.toISOString(),
         archived: false,
       });
+      setCharTitleLeft(50);
     }
   }
 
@@ -37,13 +41,14 @@ const AddNoteForm = ({ handlerSubmit }) => {
     <div className="flex justify-center">
       <div className="w-full sm:w-10/12 md:w-6/12 lg:w-4/12">
         <h1 className="text-2xl mb-1">Buat Catatan</h1>
-        <p className="text-right mb-1">Sisa Karakter Judul: 50</p>
+        <p className="text-right mb-1">Sisa Karakter Judul: {charTitleLeft}</p>
         <form onSubmit={handleSubmit}>
           <InputText
             placeholder="Ini adalah judul ..."
             name="title"
             onChange={handleInputChange}
             value={note.title}
+            maxLength="50"
           />
           <textarea
             className="textarea textarea-bordered my-3 w-full text-base"

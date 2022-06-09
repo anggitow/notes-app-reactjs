@@ -9,23 +9,30 @@ import { getInitialData } from "./utils";
 function App() {
   const initialData = getInitialData();
   const [data, setData] = useState(initialData);
+  const [filter, setFilter] = useState("");
 
-  function addNote(note) {
-    setData([...data, note]);
-  }
+  const searchFilter = (search) => {
+    setFilter(search);
+  };
 
-  function moveToArchive(newData) {
-    // console.log(newData);
-    setData(newData);
-  }
-  // console.log(data);
+  const filtered = data.filter((dt) =>
+    filter ? dt.title.toLowerCase().includes(filter.toLowerCase()) : data
+  );
 
   return (
-    <Layout>
+    <Layout handlerSearch={searchFilter}>
       <main className="px-4 md:px-10 my-7 flex-auto">
-        <AddNoteForm handlerSubmit={addNote} />
-        <NoteActive notes={data} handlerArchive={moveToArchive} />
-        <NoteArchived archivedNotes={data} />
+        <AddNoteForm handlerSubmit={(note) => setData([...data, note])} />
+        <NoteActive
+          notes={filtered}
+          handlerArchive={(newData) => setData(newData)}
+          handlerDeleteActive={(newData) => setData(newData)}
+        />
+        <NoteArchived
+          archivedNotes={filtered}
+          handlerActive={(newData) => setData(newData)}
+          handlerDeleteArchive={(newData) => setData(newData)}
+        />
       </main>
     </Layout>
   );

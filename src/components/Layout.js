@@ -1,10 +1,10 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-const Layout = ({ children }) => {
+const Layout = ({ handlerSearch, children }) => {
   return (
     <div className="font-nunito bg-base-200 flex min-h-screen flex-col justify-start">
-      <Navbar />
+      <Navbar handlerSearch={handlerSearch} />
       {children}
       <Footer />
     </div>

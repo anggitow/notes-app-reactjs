@@ -7,6 +7,7 @@ const InputText = ({ placeholder, onChange, maxLength, name, value }) => {
       onChange={onChange}
       name={name}
       value={value}
+      maxLength={maxLength}
       required
     />
   );
